@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+
+  <title>Totoro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      font-size: 16px;
+      font-family: "Lato", sans-serif;
+      font-weight: 400;
+      line-height: 1.8em;
+      color: #666;
+
+    }
+
+    .pimg1,
+    .pimg2,
+    .pimg3 {
+      position: relative;
+      ;
+
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      /* fixed=parallax
+    scroll=normal*/
+    }
+
+    .pimg1 {
+      min-height: 100%;
+      background-image: url(1.jpg);
+    }
+
+    .pimg2 {
+      min-height: 400px;
+      background-image: url(9.jpg);
+    }
+
+    .pimg3 {
+      min-height: 400px;
+      background-image: url(4.jpg);
+    }
+
+    .section {
+      text-align: center;
+      padding: 50px 80px;
+    }
+
+    .section-dark {
+      background-color: #FFF;
+      color: #111;
+    }
+
+    .section-light {
+      background-color: #FFF;
+      color: #111;
+    }
+
+    .ptext {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 27px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+    }
+
+    .ptext .border {
+      color: black;
+      padding: 20px;
+      font-weight: 900;
+    }
+
+    .ptext .border .trans {
+      background-color: transparent;
+    }
+
+    @media only screen and (max-device-width: 1366px) {
+
+      .pimg1,
+      .pimg2,
+      .pimg3 {
+        background-attachment: scroll;
+      }
+
+      .ptext {
+        letter-spacing: 0.188em;
+        font-size: 1.125em;
+        text-align: center;
+      }
+
+      .ptext .border {
+        color: black;
+        padding: 0.625em;
+      }
+    }
+
+    @media only screen and (min-device-width: 1366px) {
+      .ptext {
+        font-size: 2vw;
+        letter-spacing: 10px;
+      }
+
+      .ptext .border {
+        padding: 25px;
+      }
+
+    }
+
+    p {
+      text-indent: 2em;
+      text-align: start;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+      font-size: 20px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="pimg1">
+    <div class="ptext">
+      <span class="border">
+        <a href="index.html">Totoro</a>
+      </span>
+    </div>
+  </div>
+  <section class="section section-light">
+    <h2>青春变形记</h2>
+    <p>
+      《青春变形记》是由美国皮克斯动画工作室制作、迪士尼发行的100分钟奇幻动画影片。该片由石之予执导，石之予、Julia Cho编剧，姜晋安、吴珊卓等配音演出，于2022年3月11日在美国网络播映。
+  </section>
+  <div class="pimg2"></div>
+  <section class="section section-dark">
+    <h2>情节</h2>
+    <p>
+      《青春变形记》讲述生活在加拿大多伦多的华裔中学生美美，从家族中继承了“一激动焦躁就变身红色小熊猫”的能力，青春成长过程中越来越叛逆的她，与严厉的母亲发生一系列冲突，最后终于和解的故事。
+    </p>
+  </section>
+
+  <div class="pimg3"></div>
+  <section class="section section-light">
+    <h2>影评</h2>
+    <p>
+      《青春变形记》想讨论的是，母女间以爱的名义支配只是事实的一部分。小美在做最终选择时候，在竹林深处（也是文化的深处）看到的是同处青春期的母亲，那个为害怕辜负母亲期待而自责哭泣的少女。矛盾和怨恨来自共同的“分身”，也恰恰是这种共存之中产生的爱与共情，才可能使母女关系走向和解。所谓青春变形，是小美寻找自我，生成文化身份认同的过程，是母亲与女儿和解、与自我和解的转变，也是族群中其他女性在女儿和母亲的角色身份中找回自己、重新发现自己的历程。
+    </p>
+  </section>
+  <div class="pimg1">
+    <div class="ptext">
+      <span class="border">
+        <a href="index.html">感谢观看！</a>
+      </span>
+    </div>
+  </div>
+</body>
+
+</html>
