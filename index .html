@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <style>
+    table.tftable {
+      font-size: 12px;
+      color: #333333;
+      width: 100%;
+      border-width: 2px;
+      border-color: #b5c9ff;
+      border-collapse: collapse;
+    }
+
+    table.tftable:hover {
+      scale: 1.002;
+    }
+
+    table.tftable th {
+      font-size: 12px;
+      background-color: #9bba83;
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+      border-color: #9dcc7a;
+      text-align: left;
+    }
+
+    table.tftable tr {
+      background-color: #bedda7;
+    }
+
+    table.tftable td {
+      font-size: 20px;
+      border-width: 1px;
+      padding: 18px;
+      border-style: solid;
+      border-color: #bccfad;
+    }
+
+    .big_div {
+      width: 90%;
+      margin: auto;
+      text-align: center;
+      border: 1px solid rgb(0, 0, 0);
+      margin-top: 100px;
+      background-color: rgb(255, 255, 255);
+      border-radius: 5px;
+      box-shadow: 20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+    }
+
+    .big_div p {
+      margin-top: 30px;
+      font-size: 40px;
+      font-weight: 500;
+    }
+
+    .menu-box {
+      /* 固定定位 右下角 */
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      z-index: 10000;
+    }
+
+    /* 菜单按钮 */
+    .menu-button {
+      width: 50px;
+      height: 50px;
+      background-color: #5c67ff;
+      border-radius: 50%;
+      /* 投影 */
+      box-shadow: 0 0 0 4px rgba(92, 103, 255, 0.3);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      /* 过渡 */
+      transition: 0.2s ease-in;
+    }
+
+    .menu-button:hover {
+      background-color: #4854ff;
+      box-shadow: 0 0 0 8px rgba(92, 103, 255, 0.3);
+    }
+
+    .menu-button .line-box {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.3s ease-out;
+    }
+
+    /* 菜单按钮图标（三条杠） */
+    .menu-button .line {
+      background-color: #fff;
+      width: 100%;
+      height: 2px;
+      border-radius: 2px;
+    }
+
+    /* 前后两条短，中间的长 */
+    .menu-button .line:first-child {
+      width: 50%;
+      /* 设置变换的基点 */
+      transform-origin: right;
+      /* 过渡效果 */
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .menu-button .line:last-child {
+      width: 50%;
+      align-self: flex-end;
+      transform-origin: left;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* 菜单列表 */
+    .menu-list {
+      width: 150px;
+      height: 200px;
+      background-color: #fff;
+      border-radius: 8px;
+      list-style: none;
+      padding: 6px;
+      box-shadow: 0 0 4px 4px rgba(92, 103, 255, 0.15);
+      position: absolute;
+      right: 15px;
+      bottom: 15px;
+      /* 默认隐藏 */
+      opacity: 0;
+      transform: scale(0);
+      /* 设置变换的基点 */
+      transform-origin: bottom right;
+      /* 过渡效果 */
+      transition: 0.3s ease;
+      /* 过渡延迟 */
+      transition-delay: 0.1s;
+    }
+
+    /* 菜单项 */
+    .menu-list li {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      color: #1c3991;
+      cursor: pointer;
+      position: relative;
+      /* 默认隐藏 */
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: 0.2s ease-in;
+    }
+
+    .menu-list li:hover {
+      color: #5c67ff;
+    }
+
+    /* 菜单项下边框 */
+    .menu-list li::before {
+      content: "";
+      width: calc(100% - 24px);
+      height: 1px;
+      background-color: rgba(92, 103, 255, 0.1);
+      position: absolute;
+      bottom: 0;
+      left: 12px;
+    }
+
+    /* 最后一项不用下边框 */
+    .menu-list li:last-child::before {
+      display: none;
+    }
+
+    /* 菜单项图标 */
+    .menu-list .fa {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 菜单项文本 */
+    .menu-list span {
+      font-size: 20px;
+      margin-left: 1px;
+      font-weight: 500;
+    }
+
+    .menu-list span a {
+      font-family: '华文新魏';
+    }
+
+    /* 活动态下的部分样式变化 */
+    /* 三条杠的变化 */
+    .active .line-box {
+      transform: rotate(-45deg);
+    }
+
+    .active .line-box .line:first-child {
+      transform: rotate(-90deg) translateX(1px);
+    }
+
+    .active .line-box .line:last-child {
+      transform: rotate(-90deg) translateX(-1px);
+    }
+
+    /* 菜单列表的变化 */
+    .active .menu-list {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .active .menu-list li {
+      margin-top: 5px;
+      /* 执行动画：动画名 时长 线性 停留在最后一帧 */
+      animation: fade-in-item 0.4s linear forwards;
+    }
+
+    /* 接下来为每一项设置动画延迟时间 */
+    .active .menu-list li:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .active .menu-list li:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .active .menu-list li:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .active .menu-list li:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    /* 定义动画 */
+    @keyframes fade-in-item {
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .shell {
+      width: 90%;
+      height: 500px;
+      display: flex;
+      top: 200px;
+      margin: 10px auto;
+      margin-top: 10px;
+      margin-bottom: 100px;
+    }
+
+    .box {
+      flex: 1;
+      overflow: hidden;
+      transition: .5s;
+      margin: 0 20px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, .5);
+      border-radius: 20px;
+      border: 10px solid #fff;
+      background-color: #fff;
+    }
+
+    .box>img {
+      width: 100%;
+      height: 60%;
+      object-fit: cover;
+      transition: .5s;
+    }
+
+    .box>span {
+      font: 200 45px '优设标题黑';
+      text-align: center;
+      height: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box:hover {
+      flex-basis: 10%;
+    }
+
+    .box:hover>img {
+      width: 100%;
+      height: 100%;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "PingFang SC", "Microsoft Yahei", sans-serif;
+      text-decoration: none;
+      scroll-behavior: smooth;
+      font-family: 'totoro' !important;
+    }
+
+    @font-face {
+      font-family: 'totoro';
+      src: url(all.ttf);
+    }
+
+    @font-face {
+      font-family: 'footer';
+      src: url(footer.ttf);
+    }
+
+    a:hover {
+      transform: scale(1.05);
+      -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+    }
+
+    a:active {
+      color: #b000ff;
+    }
+
+    a:visited {
+      color: rgb(255 0 0);
+    }
+
+    span:hover {
+      transform: scale(1.05);
+    }
+
+    body {
+
+      width: 100%;
+      height: 100vh;
+      background-image: url(background.jpg);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: rgb(227 227 227 / 70%);
+      overflow-x: hidden;
+    }
+
+    tr {
+      font-size: 20px;
+    }
+
+    #title {
+      font-family: '华文行楷' !important;
+      color: rgb(0, 0, 0) !important;
+      font-size: 40px !important;
+      font-weight: 500 !important;
+      margin-bottom: 15px;
+    }
+
+    footer {
+      /* position: absolute; */
+      width: 100%;
+      height: 80px;
+      background-color: white;
+      /* bottom: 0; */
+    }
+
+    .footer {
+      margin: auto;
+      width: fit-content;
+      /*实现div居中，宽度自适应 */
+      line-height: 80px;
+      /* position: absolute;
+  top: 20px;
+  right: 31vw; */
+      color: rgb(255, 165, 180);
+      font-size: 30px;
+      font-family: '楷体';
+    }
+
+    .head {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 70px;
+      background-color: white;
+    }
+
+    nav {
+      position: absolute;
+      position: sticky;
+      z-index: 100011111;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      /* 左右padding */
+      padding: 0 5vw;
+      height: 60px;
+      background-color: rgba(255, 255, 255, 0.445);
+      box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+    }
+
+
+    #first {
+      position: absolute;
+      left: 26px;
+      font-family: '华文行楷';
+      font-weight: 900;
+      font-size: 25px;
+    }
+
+    #jiaoshe {
+      margin-top: 100px !important;
+    }
+
+    .nav-menu {
+      /* 占令一半宽度 */
+      flex: 1;
+      display: flex;
+      justify-content: space-around;
+
+      /* 最宽550px */
+      max-width: 550px;
+    }
+
+    .nav-menu li {
+      width: 40%;
+      list-style: none;
+      color: #dadbdd;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .nav-menu li a {
+      color: rgba(0, 0, 0, 0.716);
+    }
+
+    .burger div {
+      /* 设置汉堡按钮三层条 */
+      width: 25px;
+      height: 3px;
+      background-color: #dadbdd;
+      margin: 4px;
+    }
+
+    .burger {
+      display: none;
+    }
+
+    .big_div_002 {
+      display: block;
+      width: 100%;
+      margin-top: 100px;
+    }
+
+    .big_div_002 .kong {
+      height: 50px;
+    }
+
+    .big_div_002 .title {
+      position: relative;
+      top: 25px;
+      font-size: 35px;
+    }
+
+    .box-left {
+      position: absolute;
+      width: 15%;
+      left: 100px;
+      top: -40px;
+      margin-top: 50px !important;
+    }
+
+    .box-left img {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border: 2px solid rgb(220, 156, 133);
+      width: 100%;
+    }
+
+    .box-right span {
+      color: black;
+      margin-top: 10px;
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    .box-right {
+      position: absolute;
+      right: 10px;
+      top: 35px;
+      width: 65%;
+    }
+
+    .box-right p {
+      margin-left: 15px !important;
+      width: 90%;
+      text-indent: 2em;
+      text-align: start;
+      font-size: 25px !important;
+      font-family: 'totoro';
+      color: black;
+      margin-top: 35px !important;
+    }
+
+    .small-box {
+      border: 1px solid rgb(210, 210, 210);
+      position: relative;
+      width: 90%;
+      height: 340px;
+      margin: auto;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      box-shadow: 10px 10px 20px rgb(9 75 82 / 50%);
+    }
+
+    .small-box:hover {
+      scale: 1.01;
+    }
+
+    .big_div_003 {
+      display: none;
+    }
+
+    .big_div_004 {
+      display: block;
+      width: 100%;
+      margin-top: 900px !important;
+    }
+
+    .big_div_004>.title {
+      font-size: 35px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .big_div_004>.you>span {
+      color: black;
+      font-size: 40px;
+    }
+
+    .big_div_004>.you>p {
+      margin: auto;
+      width: 90%;
+      text-align: start !important;
+      text-indent: 2em !important;
+      color: black;
+      font-size: 30px;
+      margin-bottom: 30px;
+      margin-top: 20px;
+    }
+
+    .big_div_004>.kong {
+      height: 10px;
+    }
+
+    .big_div_004>.img {
+      display: inline-block;
+      width: 45%;
+    }
+
+    .big_div_004>.img img {
+      width: 90%;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .big_div_004>.you {
+      float: right;
+      width: 50%;
+      margin-left: 30px;
+      margin-bottom: 40px;
+      margin-top: 30px;
+    }
+
+    .big_div_004>.you>.totoro12 {
+      width: 90%;
+    }
+
+    .big_div_004>.you>.totoro12>img {
+      width: 24%;
+    }
+
+    #base {
+      padding: 30px;
+      margin-top: 60px;
+    }
+
+    #base p {
+      width: 90%;
+      text-indent: 2em;
+      text-align: start;
+      margin: auto;
+      margin-top: 20px;
+      font-size: 30px;
+      color: rgb(0 25 8 / 76%);
+      font-family: cursive;
+    }
+
+    #base span {
+      font-size: 30px;
+      color: rgb(60, 85, 94);
+      font-family: 翩翩体-简;
+      margin-top: 20px;
+    }
+
+    #base table {
+      width: 80%;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    #plot {
+      padding: 30px;
+      margin-top: 60px;
+      margin-bottom: 100px;
+    }
+
+    #plot p {
+      width: 90%;
+      text-indent: 2em;
+      text-align: start;
+      margin: auto;
+      margin-top: 20px;
+      font-size: 30px;
+      color: black;
+      font-family: cursive;
+    }
+
+    #plot div {
+      width: 80%;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 40px;
+    }
+
+    #plot div img {
+      width: 100%;
+      border: 1px solid rgb(0, 0, 0);
+      box-shadow: 0 0 10px rgb(0 0 0 / 70%);
+    }
+  </style>
+  <title>青春变形记</title>
+</head>
+
+<body>
+  <!-- 导航栏 -->
+  <nav>
+    <ul class="nav-menu">
+      <li><a href="#" id="first">Turning Red</a></li>
+      <li><a href="https://blog.csdn.net/m0_69380938/article/details/131352122">总结</a></li>
+      <li><a href="#">首页</a></li>
+      <li><a href="acter.html">角色介绍</a></li>
+      <li><a href="basic.html">基本信息</a></li>
+      <li><a href="juqingjieshao.html">剧情简介</a></li>
+      <li><a href="totor.html" target="_blank">Totoro</a></li>
+    </ul>
+    <div class="burger">
+      <div class="top-line"></div>
+      <div class="middle-line"></div>
+      <div class="bottom-line"></div>
+    </div>
+  </nav>
+
+  <div class="head"></div>
+
+  <!-- 大尺寸盒子 -->
+  <div class="big_div big_div_004">
+    <div class="kong"></div>
+    <div class="title">电影介绍</div>
+    <div class="img">
+      <img src="QQ图片20230622211203.jpg" alt="" />
+    </div>
+    <div class="you">
+      <span>《青春变形记》</span>
+      <p>1988年日本宫崎骏执导的动画电影</p>
+      <p>
+        青春变形记》(Turning Red)是皮克斯出品的动画电影，该片由石之予执导，Rosalie
+        Chiang和吴珊卓参与配音，于2022年3月11日在北美上映。
+      </p>
+      <p>
+        该片讲述了女孩李美莲（美美）正体验着成长的烦恼，但她比别人更特别一点：当她特别激动的时候，会变成一只巨大的红熊猫的故事。
+      </p>
+      <div class="totoro12">
+        <img src="t05.gif" alt="" />
+        <img src="t02.gif" alt="" />
+        <img src="t03.gif" alt="" />
+        <img src="t04.gif" alt="" />
+        <img src="t06.gif" alt="" />
+        <img src="t07.gif" alt="" />
+        <img src="t08.gif" alt="" />
+        <img src="t09.gif" alt="" />
+        <img src="t010.gif" alt="" />
+        <img src="t011.gif" alt="" />
+        <img src="t012.gif" alt="" />
+        <img src="t013.gif" alt="" />
+      </div>
+    </div>
+    <div class="kong"></div>
+  </div>
+
+
+
+
+
+
+
+
+  <!-- footer部份 -->
+  <footer>
+    <p class="footer"></p>
+  </footer>
+
+
+
+</body>
+
+</html>
